@@ -1,0 +1,26 @@
+USE sakila;
+
+-- OS 10 CLIENTES QUE MAIS COMPRARAM NA LOJA --
+SELECT
+    concat(customer.first_name,'  ', customer.last_name) AS Nome,
+    sum(payment.amount) AS Total
+    FROM payment
+	INNER JOIN customer ON payment.customer_id = customer.customer_id
+    
+GROUP BY Nome
+ORDER BY Total DESC
+LIMIT 10;
+
+-- CLIENTES QUE GASTARAM R$ 100 GANHARÃO UM DESCONTO DE 10% --
+SELECT
+	concat(customer.first_name, ' ', customer.last_name) AS Nome,
+    CASE
+		WHEN sum(payment.amount) >= 100 THEN 'Ganhou desconto'
+        WHEN sum(payment.amount) < 100 THEN 'Não ganhou desconto'
+	ELSE null
+    END AS Verificação
+	FROM payment
+	INNER JOIN customer ON payment.customer_id = customer.customer_id
+
+GROUP BY Nome
+ORDER BY Nome ASC;
