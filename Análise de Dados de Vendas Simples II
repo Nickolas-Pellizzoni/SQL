@@ -1,0 +1,19 @@
+-- O DIA EM QUE HOUVE MAIS VENDAS
+USE sakila;
+SELECT 
+	LEFT(payment_date, 10) AS Data,
+    sum(amount) AS Faturamento
+	FROM payment
+ 
+ GROUP BY Data
+ ORDER BY Faturamento DESC
+ LIMIT 1;
+
+-- MÉDIA DE VENDAS POR DIA
+SELECT 
+	round(avg(Soma)) FROM ((
+    SELECT date_format(payment_date, '%Y-%m-%d') AS Data,
+    sum(amount) AS Soma
+    FROM payment
+    
+    GROUP BY Data)) AS Media
